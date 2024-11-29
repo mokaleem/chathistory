@@ -1,11 +1,9 @@
-// import BrandLogo from "@/components/BrandLogo";
 import Link from "next/link";
-import React from "react";
 
 function Footer() {
   return (
-    <footer className="container pt-16 pb-8 flex flex-col sm:flex-row gap-8 sm:gap-4 justifty-between items-start">
-      <div className="flex flex-col sm:flex-row gap-8">
+    <footer className="container pt-16 pb-8 mb-20">
+      <div className="grid grid-cols-1 sm:grid-cols-5 gap-8">
         <div className="flex flex-col gap-4">
           <FooterLinkGroup
             title="Chat History"
@@ -17,8 +15,6 @@ function Footer() {
             ]}
           />
         </div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-8">
         <div className="flex flex-col gap-4">
           <FooterLinkGroup
             title="Features"
@@ -31,8 +27,6 @@ function Footer() {
             ]}
           />
         </div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-8">
         <div className="flex flex-col gap-4">
           <FooterLinkGroup
             title="Platforms"
@@ -46,8 +40,6 @@ function Footer() {
             ]}
           />
         </div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-8">
         <div className="flex flex-col gap-4">
           <FooterLinkGroup
             title="Resources"
@@ -59,8 +51,6 @@ function Footer() {
             ]}
           />
         </div>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-8">
         <div className="flex flex-col gap-4">
           <FooterLinkGroup
             title="Support"
