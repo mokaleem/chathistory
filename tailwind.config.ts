@@ -80,7 +80,7 @@ export default {
         },
       },
       container: {
-        center: "true",
+        center: true,
         padding: "1.5rem",
         screens: {
           sm: "100%",
@@ -195,6 +195,7 @@ export default {
         },
       });
     }),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require("tailwindcss-animate"),
   ],
 } satisfies Config;
