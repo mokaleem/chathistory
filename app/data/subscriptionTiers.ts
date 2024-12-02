@@ -1,5 +1,7 @@
 // import { env } from "process";
 
+export type TierName = keyof typeof subscriptionTiers;
+
 export const subscriptionTiers = {
   Free: {
     name: "Free",
@@ -19,7 +21,22 @@ export const subscriptionTiers = {
   Standard: {
     name: "Standard",
     description: "For creatives and storytellers creators",
-    price: 5,
+    price: 7,
+    disclaimer: "No commitment, cancel anytime",
+    isMostPopular: true,
+    features: [
+      "Unlimited messages",
+      "Unlimited words",
+      "Unlimited characters",
+      "Unlimited images",
+      "Unlimited videos",
+    ],
+    // stripePriceId: env.STANDARD_STRIPE_PRICE_ID,
+  },
+  Premium: {
+    name: "Premium",
+    description: "For creatives and storytellers creators",
+    price: 10,
     disclaimer: "No commitment, cancel anytime",
     isMostPopular: true,
     features: [
