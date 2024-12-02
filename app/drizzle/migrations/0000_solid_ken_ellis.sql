@@ -1,4 +1,3 @@
-CREATE TYPE "public"."tier" AS ENUM('Free', 'Standard', 'Premium');--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "conversations" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text,
@@ -30,7 +29,22 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
-	"createdAt" timestamp DEFAULT now() NOT NULL
+	"first_name" text,
+	"last_name" text,
+	"profile_image_url" text,
+	"email_verified" boolean DEFAULT false,
+	"providers" jsonb DEFAULT '[]'::jsonb,
+	"current_tier" "tier" DEFAULT 'Free' NOT NULL,
+	"has_active_subscription" boolean DEFAULT false,
+	"preferred_platform" varchar(50),
+	"preferred_view_type" varchar(20),
+	"last_conversation_at" timestamp,
+	"total_conversations" integer DEFAULT 0,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"last_sign_in_at" timestamp,
+	"last_ip" text,
+	"user_agent" text
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -52,4 +66,7 @@ CREATE INDEX IF NOT EXISTS "stripe_customer_idx" ON "subscriptions" USING btree 
 CREATE INDEX IF NOT EXISTS "plan_type_idx" ON "subscriptions" USING btree ("tier");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "active_subscriptions_idx" ON "subscriptions" USING btree ("is_active");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "subscription_expiry_idx" ON "subscriptions" USING btree ("end_date");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "emailIdx" ON "users" USING btree ("email");
+CREATE INDEX IF NOT EXISTS "email_idx" ON "users" USING btree ("email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "name_idx" ON "users" USING btree ("name");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "tier_idx" ON "users" USING btree ("current_tier");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "last_conversation_idx" ON "users" USING btree ("last_conversation_at");

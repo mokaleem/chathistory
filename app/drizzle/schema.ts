@@ -1,32 +1,65 @@
 import {
   boolean,
   index,
+  integer,
   json,
-  pgEnum,
+  jsonb,
   pgTable,
   serial,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { subscriptionTiers, TierName } from "../data/subscriptionTiers";
+import { TierEnum } from "../data/subscriptionTiers";
 
-export const UsersTable = pgTable(
+export const UsersSubscriptionTable = pgTable(
   "users",
   {
-    id: text("id").primaryKey(),
+    id: text("id").primaryKey(), // Clerk user ID
     name: text("name").notNull(),
     email: text("email").notNull(),
-    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+    firstName: text("first_name"),
+    lastName: text("last_name"),
+    profileImageUrl: text("profile_image_url"),
+
+    // Authentication related fields
+    emailVerified: boolean("email_verified").default(false),
+    providers: jsonb("providers").default([]).$type<string[]>(),
+
+    // Subscription-related fields
+    currentTier: TierEnum("current_tier").default("Free").notNull(),
+    hasActiveSubscription: boolean("has_active_subscription").default(false),
+
+    // Preferences
+    preferredPlatform: varchar("preferred_platform", { length: 50 }),
+    preferredViewType: varchar("preferred_view_type", { length: 20 }),
+
+    // Usage tracking
+    lastConversationAt: timestamp("last_conversation_at", { mode: "date" }),
+    totalConversations: integer("total_conversations").default(0),
+
+    // Timestamps and metadata
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+    lastSignInAt: timestamp("last_sign_in_at", { mode: "date" }),
+
+    // Security
+    lastIp: text("last_ip"),
+    userAgent: text("user_agent"),
   },
-  (users) => [index("emailIdx").on(users.email)]
+  (users) => [
+    index("email_idx").on(users.email),
+    index("name_idx").on(users.name),
+    index("tier_idx").on(users.currentTier),
+    index("last_conversation_idx").on(users.lastConversationAt),
+  ]
 );
 
 export const ConversationsTable = pgTable(
   "conversations",
   {
     id: serial("id").primaryKey(),
-    userId: text("user_id").references(() => UsersTable.id),
+    userId: text("user_id").references(() => UsersSubscriptionTable.id),
     title: varchar("title", { length: 255 }).notNull(),
     platform: varchar("platform", { length: 50 }).notNull(), // WhatsApp, Telegram, etc.
     viewType: varchar("view_type", { length: 20 }).notNull(), // mobile or desktop
@@ -41,18 +74,13 @@ export const ConversationsTable = pgTable(
   ]
 );
 
-export const TierEnum = pgEnum(
-  "tier",
-  Object.keys(subscriptionTiers) as [TierName]
-);
-
 export const SubscriptionsTable = pgTable(
   "subscriptions",
   {
     id: serial("id").primaryKey(),
     userId: text("user_id")
       .notNull()
-      .references(() => UsersTable.id),
+      .references(() => UsersSubscriptionTable.id),
     stripeCustomerId: text("stripe_customer_id").notNull(),
     stripePriceId: text("stripe_price_id").notNull(),
     stripeSubscriptionId: text("stripe_subscription_id").notNull(),

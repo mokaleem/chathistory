@@ -1,6 +1,12 @@
-// import { env } from "process";
+import { pgEnum } from "drizzle-orm/pg-core";
 
-export type TierName = keyof typeof subscriptionTiers;
+// export type TierName = keyof typeof subscriptionTiers;
+
+export const TierEnum = pgEnum("tier", [
+  "Free",
+  "Standard",
+  "Premium",
+] as const);
 
 export const subscriptionTiers = {
   Free: {
@@ -53,4 +59,5 @@ export const subscriptionTiers = {
 export const subTierOrder = [
   subscriptionTiers.Free,
   subscriptionTiers.Standard,
+  subscriptionTiers.Premium,
 ] as const;

@@ -2,8 +2,8 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { env } from "@/app/data/env/server";
-import { UsersTable } from "@/app/drizzle/schema";
-import { db } from "@/app/drizzle/db";
+import { createUserSubscription } from "@/app/server/db/subscription";
+import { UsersSubscriptionTable } from "@/app/drizzle/schema";
 
 export async function POST(req: Request) {
   const headerPayload = headers();
@@ -38,25 +38,46 @@ export async function POST(req: Request) {
 
   switch (event.type) {
     case "user.created": {
-      console.log("User created", event.data);
-      await db.insert(UsersTable).values({
-        id: event.data.id,
-        name: "Test User",
-        email: "Test email",
-      });
+      const {
+        id,
+        email_addresses,
+        first_name,
+        last_name,
+        created_at,
+        profile_image_url,
+      } = event.data;
+      const userData: typeof UsersSubscriptionTable.$inferInsert = {
+        id,
+        name: `${first_name ?? ""} ${last_name ?? ""}`.trim(),
+        email: email_addresses[0]?.email_address ?? "",
+        firstName: first_name ?? null,
+        lastName: last_name ?? null,
+        profileImageUrl: profile_image_url ?? null,
+        emailVerified: email_addresses[0]?.verification?.status === "verified",
+        providers: [],
+        currentTier: "Free",
+        hasActiveSubscription: false,
+        preferredPlatform: null,
+        preferredViewType: null,
+        lastConversationAt: null,
+        totalConversations: 0,
+        createdAt: new Date(created_at),
+        updatedAt: new Date(created_at),
+        lastSignInAt: new Date(created_at),
+        lastIp: event.event_attributes?.http_request?.client_ip ?? null,
+        userAgent: event.event_attributes?.http_request?.user_agent ?? null,
+      };
+
+      try {
+        await createUserSubscription(userData);
+      } catch (error) {
+        console.error("Error creating user subscription:", error);
+        return new Response("Error creating user subscription", {
+          status: 500,
+        });
+      }
       break;
     }
-    // case "user.deleted": {
-    //   if (event.data.id != null) {
-    //     const userSubscription = await getUserSubscription(event.data.id);
-    //     if (userSubscription?.stripeSubscriptionId != null) {
-    //       await stripe.subscriptions.cancel(
-    //         userSubscription?.stripeSubscriptionId
-    //       );
-    //     }
-    //     await deleteUser(event.data.id);
-    //   }
-    // }
   }
 
   return new Response("", { status: 200 });
