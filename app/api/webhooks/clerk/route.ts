@@ -2,7 +2,10 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { env } from "@/app/data/env/server";
-import { createUserSubscription } from "@/app/server/db/subscription";
+import {
+  createUserSubscription,
+  deleteUserSubscription,
+} from "@/app/server/db/subscription";
 import { UsersSubscriptionTable } from "@/app/drizzle/schema";
 
 export async function POST(req: Request) {
@@ -77,6 +80,12 @@ export async function POST(req: Request) {
         });
       }
       break;
+    }
+    case "user.deleted": {
+      const { id } = event.data;
+      if (id) {
+        await deleteUserSubscription(id);
+      }
     }
   }
 
