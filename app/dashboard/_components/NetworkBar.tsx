@@ -1,6 +1,6 @@
 import { BatteryFull, SignalHigh, WifiHigh } from "lucide-react";
 
-function Network() {
+function NetworkBar() {
   return (
     <div className="w-full h-3 flex items-center m-3 pl-3">
       <div>
@@ -15,4 +15,4 @@ function Network() {
   );
 }
 
-export default Network;
+export default NetworkBar;
