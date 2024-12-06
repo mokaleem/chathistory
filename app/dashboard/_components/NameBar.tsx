@@ -1,19 +1,25 @@
-import { ChevronLeft, Circle, Phone, Video } from "lucide-react";
+import { ChevronLeft, Phone, Video } from "lucide-react";
 import React from "react";
-import ProfileImage from "./ProfileImage";
 
 function NameBar() {
   return (
-    <div className="flex items-center h-[44px] flex-row justify-between">
-      <div className="flex items-center gap-2">
-        <ChevronLeft size={30} />
-        <Circle className="h-10 w-10">
-          <ProfileImage />
-        </Circle>
-      </div>
-      <div className="flex items-center gap-2 mr-4 ">
-        <Video size={30} strokeWidth={1} />
-        <Phone size={25} strokeWidth={1} />
+    <div className="w-full px-2 bg-white">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-1">
+          <ChevronLeft className="w-7 h-7 text-blue-500" strokeWidth={2.5} />
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
+              {/* Placeholder for profile image */}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-base font-semibold">Martha Craig</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-4 mr-2">
+          <Video className="w-6 h-6 text-blue-500" strokeWidth={1.2} />
+          <Phone className="w-5 h-5 text-blue-500" strokeWidth={1.2} />
+        </div>
       </div>
     </div>
   );
