@@ -1,6 +1,7 @@
 import React from "react";
 import NetworkBar from "./NetworkBar";
 import NameBar from "./NameBar";
+import Background from "./Background";
 
 function Phone() {
   return (
@@ -13,6 +14,7 @@ function Phone() {
       <div className="rounded-[2rem] overflow-hidden w-[302px] h-[587px] !bg-white z-10">
         <NetworkBar />
         <NameBar />
+        <Background />
       </div>
     </div>
   );
