@@ -10,15 +10,14 @@ function DashboardPage() {
   // if (!userId) return redirectToSignIn();
 
   return (
-    <section className="grid grid-cols-2 h-screen">
-      <div className="h-screen">
-        <MessageArea />
+    <section className="grid grid-cols-2 h-[calc(100vh-48px)]">
+      <div className="relative h-full overflow-y-auto">
+        <div className="h-full p-4">
+          <MessageArea />
+        </div>
       </div>
-      <Separator
-        orientation="vertical"
-        className="absolute left-1/2 h-screen"
-      />
-      <div className="h-screen">
+      <div className="relative h-full flex items-center justify-center">
+        <Separator orientation="vertical" className="absolute left-0 h-full" />
         <Phone />
       </div>
     </section>
