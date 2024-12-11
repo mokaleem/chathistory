@@ -7,7 +7,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <div className="flex h-screen overflow-hidden">
         <AppSidebar />
-        <div>
+        <div className="flex-1">
           <SidebarTrigger />
           {children}
         </div>
