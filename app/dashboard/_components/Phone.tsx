@@ -2,6 +2,7 @@ import React from "react";
 import NetworkBar from "./NetworkBar";
 import NameBar from "./NameBar";
 import Background from "./Background";
+import { PhoneMessagesClient } from "./PhoneMessagesClient";
 
 function Phone() {
   return (
@@ -15,6 +16,9 @@ function Phone() {
         <NetworkBar />
         <NameBar />
         <Background />
+        <div className="h-[calc(100%-80px)] overflow-y-auto">
+          <PhoneMessagesClient />
+        </div>
       </div>
     </div>
   );

@@ -7,17 +7,11 @@ import { Separator } from "@/components/ui/separator";
 
 const DashboardPage = () => {
   return (
-    <section className="grid grid-cols-2 h-full min-w-0">
-      {" "}
-      {/* Added min-w-0 */}
-      <div className="min-w-0 h-full overflow-hidden">
-        {" "}
-        {/* Added min-w-0 */}
+    <section className="grid grid-cols-2 h-full w-full gap-0">
+      <div className="w-full h-full overflow-hidden">
         <MessageArea />
       </div>
-      <div className="relative h-full flex items-center justify-center min-w-0">
-        {" "}
-        {/* Added min-w-0 */}
+      <div className="relative w-full h-full flex items-center justify-center">
         <Separator orientation="vertical" className="absolute left-0 h-full" />
         <Phone />
       </div>
