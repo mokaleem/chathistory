@@ -25,7 +25,14 @@ export const EditableMessage = ({ message }: { message: Message }) => {
             editMessage(message.id, e.target.value);
             toggleMessageEdit(message.id);
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              editMessage(message.id, e.target.value);
+              toggleMessageEdit(message.id);
+            }
+          }}
           autoFocus
+          style={{ color: "darkgray" }}
         />
       ) : (
         <>

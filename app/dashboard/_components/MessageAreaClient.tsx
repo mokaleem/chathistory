@@ -9,6 +9,7 @@ export const MessageAreaClient = () => {
 
   return (
     <div className="h-full flex flex-col min-w-0 w-full">
+      <div className="p-4 border-b border-gray-200">Message Area</div>
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((message) => (
           <EditableMessage key={message.id} message={message} />
