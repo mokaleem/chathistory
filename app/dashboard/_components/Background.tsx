@@ -3,7 +3,7 @@ import React from "react";
 
 function Background() {
   return (
-    <div className="relative w-full h-[calc(100vh-110px)]">
+    <div className="relative w-full h-[calc(100vh-110px)] z-1">
       <Image
         src="/wa-bg.png"
         alt="background"

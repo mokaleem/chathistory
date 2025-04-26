@@ -3,7 +3,9 @@ import { format } from "date-fns";
 import { useChatStore } from "../store/chatStore";
 
 export const PhoneMessagesClient = () => {
-  const { messages, otherParticipant } = useChatStore();
+  const messages = useChatStore((state) => state.messages);
+
+  console.log("messages: ", messages);
 
   return (
     <div className="flex-1 overflow-y-auto px-3 py-2">
