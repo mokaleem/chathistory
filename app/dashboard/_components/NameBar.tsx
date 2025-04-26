@@ -3,7 +3,7 @@ import React from "react";
 
 function NameBar() {
   return (
-    <div className="w-full px-2 bg-white">
+    <div className="w-full px-2 py-2 bg-white">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-1">
           <ChevronLeft className="w-7 h-7 text-blue-500" strokeWidth={2.5} />
