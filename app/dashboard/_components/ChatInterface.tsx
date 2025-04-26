@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
-  MessageCircle,
-  Send,
-  Image as ImageIcon,
-  Battery,
-  Wifi,
-  Signal,
-} from "lucide-react";
+  FiMessageCircle,
+  FiSend,
+  FiImage,
+  FiBattery,
+  FiWifi,
+  FiBarChart,
+} from "react-icons/fi";
 
 interface Platform {
   id: PlatformId;
@@ -89,9 +89,9 @@ const IPhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="relative h-12 flex items-center justify-between px-6 text-white z-40">
           <div className="text-sm">9:41</div>
           <div className="flex items-center gap-2">
-            <Signal className="w-4 h-4" />
-            <Wifi className="w-4 h-4" />
-            <Battery className="w-4 h-4" />
+            <FiBarChart className="w-4 h-4" />
+            <FiWifi className="w-4 h-4" />
+            <FiBattery className="w-4 h-4" />
           </div>
         </div>
 
@@ -277,7 +277,7 @@ const ChatInterface: React.FC = () => {
             className="flex-1"
           />
           <Button onClick={handleSendMessage}>
-            <Send className="w-4 h-4" />
+            <FiSend className="w-4 h-4" />
           </Button>
         </div>
       </div>

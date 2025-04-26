@@ -18,7 +18,7 @@ function Phone() {
         <div className="-z-1">
           <Background />
         </div>
-        <div className="h-[calc(100%-80px)] overflow-y-auto z-10 relative">
+        <div className="h-[calc(100%-80px)] overflow-y-auto z-10">
           <PhoneMessagesClient />
         </div>
       </div>

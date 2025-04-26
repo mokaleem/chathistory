@@ -2,17 +2,34 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+  FiBookOpen,
+  FiSettings,
+  FiPieChart,
+  FiTerminal,
+  FiUser,
+  FiMap,
+  FiBarChart,
+  FiLayers,
+  FiCommand,
+  FiCpu,
+  FiZap,
+  FiFolder,
+  FiShare2,
+  FiTrash2,
+  FiMoreHorizontal,
+  FiBox,
+  FiGrid,
+  FiUsers,
+  FiFramer,
+  FiBox as FiBot,
+  FiImage,
+  FiHeadphones,
+  FiMusic,
+  FiVideo,
+  FiMic,
+  FiVolume2,
+  FiRadio,
+} from "react-icons/fi";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -36,17 +53,17 @@ const data = {
   teams: [
     {
       name: "Chat History",
-      logo: GalleryVerticalEnd,
+      logo: FiImage,
       plan: "Enterprise",
     },
     {
       name: "Acme Corp.",
-      logo: AudioWaveform,
+      logo: FiRadio,
       plan: "Startup",
     },
     {
       name: "Evil Corp.",
-      logo: Command,
+      logo: FiCommand,
       plan: "Free",
     },
   ],
@@ -54,7 +71,7 @@ const data = {
     {
       title: "Playground",
       url: "#",
-      icon: SquareTerminal,
+      icon: FiTerminal,
       isActive: true,
       items: [
         {
@@ -74,7 +91,7 @@ const data = {
     {
       title: "Models",
       url: "#",
-      icon: Bot,
+      icon: FiBot,
       items: [
         {
           title: "Genesis",
@@ -93,7 +110,7 @@ const data = {
     {
       title: "Documentation",
       url: "#",
-      icon: BookOpen,
+      icon: FiBookOpen,
       items: [
         {
           title: "Introduction",
@@ -116,7 +133,7 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: Settings2,
+      icon: FiSettings,
       items: [
         {
           title: "General",
@@ -141,17 +158,17 @@ const data = {
     {
       name: "Design Engineering",
       url: "#",
-      icon: Frame,
+      icon: FiFramer,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: PieChart,
+      icon: FiPieChart,
     },
     {
       name: "Travel",
       url: "#",
-      icon: Map,
+      icon: FiMap,
     },
   ],
 };

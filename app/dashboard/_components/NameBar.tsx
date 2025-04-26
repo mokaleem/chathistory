@@ -1,4 +1,4 @@
-import { ChevronLeft, Phone, Video } from "lucide-react";
+import { FiChevronLeft, FiPhone, FiVideo } from "react-icons/fi";
 import React from "react";
 
 function NameBar() {
@@ -6,7 +6,7 @@ function NameBar() {
     <div className="w-full px-2 py-2 bg-white">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-1">
-          <ChevronLeft className="w-7 h-7 text-blue-500" strokeWidth={2.5} />
+          <FiChevronLeft className="w-7 h-7 text-blue-500" />
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
               {/* Placeholder for profile image */}
@@ -17,8 +17,8 @@ function NameBar() {
           </div>
         </div>
         <div className="flex items-center gap-4 mr-2">
-          <Video className="w-6 h-6 text-blue-500" strokeWidth={1.2} />
-          <Phone className="w-5 h-5 text-blue-500" strokeWidth={1.2} />
+          <FiVideo className="w-6 h-6 text-blue-500" />
+          <FiPhone className="w-5 h-5 text-blue-500" />
         </div>
       </div>
     </div>

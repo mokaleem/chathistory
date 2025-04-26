@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { useChatStore } from "../store/chatStore";
 
 export const PhoneMessagesClient = () => {
+  // const { messages = useChatStore((state) => state);
   const messages = useChatStore((state) => state.messages);
 
   console.log("messages: ", messages);

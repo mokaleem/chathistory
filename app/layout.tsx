@@ -19,15 +19,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className} antialiased bg-blue`}>
-          <ThemeProvider
+        <body className={`${inter.className} antialiased bg-#ababd4`}>
+          {/* <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="light"
+            enableSystem={false}
             disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          > */}
+          {children}
+          {/* </ThemeProvider> */}
         </body>
       </html>
     </ClerkProvider>

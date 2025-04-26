@@ -1,6 +1,7 @@
 import BrandLogo from "@/components/BrandLogo";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 function Navbar() {
