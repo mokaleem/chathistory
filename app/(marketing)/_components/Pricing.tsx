@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SignUpButton } from "@clerk/nextjs";
-import { ArrowRightIcon, CheckIcon } from "lucide-react";
+import { FiArrowRight, FiCheck } from "react-icons/fi";
 import React from "react";
 
 function Pricing() {
@@ -38,7 +38,7 @@ function Pricing() {
                     size="lg"
                     className="rounded-full w-40 font-bold"
                   >
-                    Get started <ArrowRightIcon size="size-5" />
+                    Get started <FiArrowRight size="size-5" />
                   </Button>
                 </SignUpButton>
                 <div className="flex flex-col gap-2 bg-gray-100 p-4">
@@ -58,7 +58,7 @@ function Pricing() {
 function Feature({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
-      <CheckIcon className="size-4" />
+      <FiCheck className="size-4" />
       <span>{children}</span>
     </div>
   );
