@@ -10,4 +10,6 @@ export type Message = {
 export type Participant = {
   name: string;
   avatar?: string;
+  setOtherName: (name: string) => void;
+  setOtherAvatar: (avatar: string) => void;
 };

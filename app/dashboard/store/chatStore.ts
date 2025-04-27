@@ -15,7 +15,19 @@ interface ChatStore {
 
 export const useChatStore = create<ChatStore>((set) => ({
   messages: [],
-  otherParticipant: { name: "Martha Craig" },
+  otherParticipant: {
+    name: "Martha",
+    setOtherName: (newName: string) => {
+      set((state) => ({
+        otherParticipant: { ...state.otherParticipant, name: newName },
+      }));
+    },
+    setOtherAvatar: (newAvatar: string) => {
+      set((state) => ({
+        otherParticipant: { ...state.otherParticipant, avatar: newAvatar },
+      }));
+    },
+  },
   addMessage: (content, sender) =>
     set((state) => ({
       messages: [
