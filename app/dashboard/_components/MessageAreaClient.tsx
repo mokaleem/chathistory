@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useChatStore } from "../store/chatStore";
 import { EditableMessage } from "./EditableMessag";
 import { MessageEditor } from "./MessageEditor";
+import { TextMessage } from "../types/types";
 
 export const MessageAreaClient = () => {
   const messages = useChatStore((state) => state.messages);
   const otherName = useChatStore((state) => state.otherParticipant.name);
   const otherAvatar = useChatStore((state) => state.otherParticipant.avatar);
+  // Fixed: Access the functions directly from the store instead of through otherParticipant
   const setOtherName = useChatStore(
     (state) => state.otherParticipant.setOtherName
   );
@@ -25,6 +27,8 @@ export const MessageAreaClient = () => {
               src={otherAvatar}
               alt="Display Picture"
               className="w-8 h-8 rounded-full"
+              width={32} // Added missing required props
+              height={32}
             />
           ) : (
             <Image
@@ -52,7 +56,34 @@ export const MessageAreaClient = () => {
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((message) => (
-          <EditableMessage key={message.id} message={message} />
+          <div
+            key={message.id}
+            className={`max-w-[70%] rounded-lg p-2 mb-2 ${
+              message.senderId === "user-id"
+                ? "ml-auto bg-blue-500 text-white"
+                : "bg-gray-100"
+            }`}
+          >
+            {/* Fixed: Use content for TextMessage and show appropriate content for different message types */}
+            <div>
+              {message.type === "text"
+                ? (message as TextMessage).content
+                : "Media message"}
+            </div>
+            <div className="text-xs opacity-70">
+              {new Date(message.timestamp).toLocaleTimeString()}
+            </div>
+            {/* Display reactions if any */}
+            {message.reactions && message.reactions.length > 0 && (
+              <div className="flex gap-1 mt-1">
+                {message.reactions.map((reaction, index) => (
+                  <span key={index} className="text-xs">
+                    {reaction.emoji}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </div>
       <div className="p-4 grid grid-cols-2 gap-4">

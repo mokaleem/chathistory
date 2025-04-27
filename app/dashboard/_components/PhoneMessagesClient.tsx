@@ -1,9 +1,8 @@
 "use client";
-import { format } from "date-fns";
 import { useChatStore } from "../store/chatStore";
 
 export const PhoneMessagesClient = () => {
-  const { messages, otherParticipant } = useChatStore();
+  const messages = useChatStore((state) => state.messages);
 
   return (
     <div className="flex-1 overflow-y-auto px-3 py-2">
@@ -16,15 +15,10 @@ export const PhoneMessagesClient = () => {
               : "bg-gray-100"
           }`}
         >
-          <div>{message.content}</div>
+          <div>{message.text}</div>
           <div className="text-xs opacity-70">
-            {format(message.timestamp, "HH:mm")}
+            {new Date(message.timestamp).toLocaleTimeString()}
           </div>
-          {message.reactions?.map((reaction, i) => (
-            <span key={i} className="ml-1">
-              {reaction}
-            </span>
-          ))}
         </div>
       ))}
     </div>

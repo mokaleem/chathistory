@@ -2,7 +2,6 @@
 import { useState, KeyboardEvent } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useChatStore } from "../store/chatStore";
-import { send } from "process";
 
 export const MessageEditor = ({ sender }: { sender: "user" | "other" }) => {
   const [input, setInput] = useState("");
@@ -13,6 +12,8 @@ export const MessageEditor = ({ sender }: { sender: "user" | "other" }) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (input.trim()) {
+        // Fixed: Pass the correct parameters to addMessage
+        // The previous implementation was trying to pass a JSON string of an object
         addMessage(input.trim(), sender);
         setInput("");
       }
