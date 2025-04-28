@@ -15,9 +15,19 @@ function Phone() {
       <div className="rounded-[2rem] overflow-hidden w-[302px] h-[587px] !bg-white z-10">
         <NetworkBar />
         <NameBar />
-        <Background />
-        <div className="h-[calc(100%-80px)] overflow-y-auto">
+        {/* <Background />
+        <div className="h-[calc(100%-80px)] overflow-y-auto relative z-10">
           <PhoneMessagesClient />
+        </div> */}
+        <div className="relative h-[calc(100%-80px)]">
+          {/* Background with absolute positioning */}
+          <div className="absolute inset-0 z-0">
+            <Background />
+          </div>
+          {/* Messages with relative positioning and higher z-index */}
+          <div className="relative h-full z-10 overflow-y-auto">
+            <PhoneMessagesClient />
+          </div>
         </div>
       </div>
     </div>
