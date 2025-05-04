@@ -1,4 +1,3 @@
-// PhoneMessagesClient.tsx with updated styles
 "use client";
 import { useChatStore } from "../store/chatStore";
 import { TextMessage, MediaMessage } from "../types/types";
@@ -15,7 +14,7 @@ export const PhoneMessagesClient = () => {
         return (
           <div className="flex flex-col">
             {(message as MediaMessage).content && (
-              <p>{(message as MediaMessage).content}</p>
+              <p className="break-words">{(message as MediaMessage).content}</p>
             )}
             <div className="text-xs mt-1">📷 Image</div>
           </div>
@@ -24,7 +23,7 @@ export const PhoneMessagesClient = () => {
         return (
           <div className="flex flex-col">
             {(message as MediaMessage).content && (
-              <p>{(message as MediaMessage).content}</p>
+              <p className="break-words">{(message as MediaMessage).content}</p>
             )}
             <div className="text-xs mt-1">🎥 Video</div>
           </div>
@@ -33,7 +32,7 @@ export const PhoneMessagesClient = () => {
         return (
           <div className="flex flex-col">
             {(message as MediaMessage).content && (
-              <p>{(message as MediaMessage).content}</p>
+              <p className="break-words">{(message as MediaMessage).content}</p>
             )}
             <div className="text-xs mt-1">🎵 Audio</div>
           </div>
@@ -42,7 +41,7 @@ export const PhoneMessagesClient = () => {
         return (
           <div className="flex flex-col">
             {(message as MediaMessage).content && (
-              <p>{(message as MediaMessage).content}</p>
+              <p className="break-words">{(message as MediaMessage).content}</p>
             )}
             <div className="text-xs mt-1">
               📄 Document: {(message as MediaMessage).fileName}
@@ -55,8 +54,8 @@ export const PhoneMessagesClient = () => {
   };
 
   return (
-    // Updated scrollbar styling for WhatsApp feel
-    <div className="flex-1 overflow-y-auto px-3 py-2 h-full whatsapp-scrollbar">
+    // Custom scrollbar with controlled width and hiding horizontal scrollbar
+    <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-2 h-full custom-scrollbar">
       {/* Date header like in the screenshot */}
       <div className="flex justify-center my-2">
         <div className="bg-white text-gray-500 rounded-md px-3 py-1 text-xs font-medium shadow-sm">
@@ -67,13 +66,13 @@ export const PhoneMessagesClient = () => {
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`max-w-[65%] rounded-lg mb-1 px-2 pt-1.5 pb-1 relative ${
+          className={`max-w-[75%] rounded-lg mb-1 px-2 pt-1.5 pb-1 relative ${
             message.senderId === "user-id"
               ? "ml-auto bg-[#dcf8c6] text-black" // WhatsApp green bubble for user
               : "bg-white text-black" // White bubble for others
           }`}
         >
-          <div className="text-sm leading-tight mb-2">
+          <div className="text-sm leading-tight mb-2 break-words overflow-wrap-anywhere">
             {renderMessageContent(message)}
           </div>
 

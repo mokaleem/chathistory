@@ -19,15 +19,16 @@ export const MessageAreaClient = () => {
   );
 
   return (
-    <div className="h-full flex flex-col min-w-0 w-full">
-      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+    <div className="h-full flex flex-col min-w-0 w-full max-h-screen">
+      {/* Header section */}
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
           {otherAvatar ? (
             <Image
               src={otherAvatar}
               alt="Display Picture"
               className="w-8 h-8 rounded-full"
-              width={32} // Added missing required props
+              width={32}
               height={32}
             />
           ) : (
@@ -54,39 +55,45 @@ export const MessageAreaClient = () => {
           className="border rounded-sm border-gray-300 rounded px-2 py-1 text-sm bg-gray-100 text-gray-500"
         />
       </div>
-      <div className="flex-1 overflow-y-auto p-4">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`max-w-[70%] rounded-lg p-2 mb-2 ${
-              message.senderId === "user-id"
-                ? "ml-auto bg-blue-500 text-white"
-                : "bg-gray-100"
-            }`}
-          >
-            {/* Fixed: Use content for TextMessage and show appropriate content for different message types */}
-            <div>
-              {message.type === "text"
-                ? (message as TextMessage).content
-                : "Media message"}
-            </div>
-            <div className="text-xs opacity-70">
-              {new Date(message.timestamp).toLocaleTimeString()}
-            </div>
-            {/* Display reactions if any */}
-            {message.reactions && message.reactions.length > 0 && (
-              <div className="flex gap-1 mt-1">
-                {message.reactions.map((reaction, index) => (
-                  <span key={index} className="text-xs">
-                    {reaction.emoji}
-                  </span>
-                ))}
+
+      {/* Message area - critical fix for scrolling */}
+      <div className="flex-1 overflow-hidden relative">
+        <div className="absolute inset-0 overflow-y-auto overflow-x-hidden p-4">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`max-w-[70%] rounded-lg p-2 mb-2 ${
+                message.senderId === "user-id"
+                  ? "ml-auto bg-blue-500 text-white"
+                  : "bg-gray-100"
+              }`}
+            >
+              {/* Fixed: Use content for TextMessage and show appropriate content for different message types */}
+              <div className="break-words">
+                {message.type === "text"
+                  ? (message as TextMessage).content
+                  : "Media message"}
               </div>
-            )}
-          </div>
-        ))}
+              <div className="text-xs opacity-70">
+                {new Date(message.timestamp).toLocaleTimeString()}
+              </div>
+              {/* Display reactions if any */}
+              {message.reactions && message.reactions.length > 0 && (
+                <div className="flex gap-1 mt-1">
+                  {message.reactions.map((reaction, index) => (
+                    <span key={index} className="text-xs">
+                      {reaction.emoji}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="p-4 grid grid-cols-2 gap-4">
+
+      {/* Editor section */}
+      <div className="p-4 grid grid-cols-2 gap-4 shrink-0 bg-white">
         <MessageEditor sender="other" />
         <MessageEditor sender="user" />
       </div>
