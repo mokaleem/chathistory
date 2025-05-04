@@ -158,6 +158,64 @@
   @apply rotate-[-360deg];
 }
 
+.wa.user-bg {
+  background: rgb(190, 237, 182);
+}
+
+.wa.msg-user {
+  color: rgb(17, 27, 33);
+}
+
+/* Add this to your global CSS file */
+
+/* WhatsApp background pattern */
+.phone-area-component .bg-whatsapp {
+  background-color: #e5ddd5;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QQQEwkySS4V9wAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAEZklEQVR42uWa3XrbNhCDV1U7TZ02adP3f8hctekPTaXt1wXIlRXJPxAEyb30ou4VFnz8ABDEYTwxeRdJAJGZT5VNZOYfM8cLwETEs2VmMgw7M+8BkJkzgCkiJjObe3VeeiAR8beZfQewBvBmZq8AVt77a21mAFgAeInIFwDPrYNHXnAnIp7M7CcAvwF4iYhXZr5ExLOZvQKYIuJVRDb1PQbgWUQ+APhsZp+aeZrZXEQmInoqiMyczOw7gN8B/GNmPyLiJTNfImKKiCki1gA2tXy2lZci4jMRfTKz9wA+AJiZ2RwRcxExR4RWYe9EREPyBcC/AP4C8AzgOSJ+RsRzRMwRsYmIFYAVgJW3Xt4zs3fMfGfmOzN7z8yfROSTmb2fpmntSpTPzCYAvwD4BuBvAP8R0ZOILEVkKSKyLdhJrQBsxnGcM/M9M98z8wMzf2DmB2Z+YOaPZvZ+GAZi5jLo3gAYEUFE9NXMPW9FJABMzFyulwVAvd4w8wwALdRF5GQT0RwRj5n5GBGnzHzKzJOZTR7j1G0cRmYeRGQQkYGIiIjKWvZkFpGBiAYRGURkMLOBiAgAsrKl+1l1lX6zr6BhXM7nj3LOXL0Bh0vr5Zt7h9vtl1MSkbTLQ9cD0OWBfF38dDkcf7gRpOu6QJ4KKcuyC+R6JZa3CrIsy+4gO2E5jiO20NVKLMvy8kCs64plWYqu67rnf7Tb/YIs9PuQx3FcQ76u65dJVldB+r7fCzmOI/q+RwmfruuQmedt2O0BHcdxD7Es3nUd+r7HNE0YhgF935+xvAVyfuBpmvD8/IxxHHdPyufgaZpOqZXny+G+QOZ5Rtd1GIYBfd9jmqbT/WEYUFf/5ZLc+3oTEQzDgGVZICI7yxpYkXtExDP9XmuTmaiua+VuWlOF54rn2oU2M3fm9YB4WKHve6zr+spnG2Rc+o+IYF3XnQvIHoyIfNxSK+bpRG0VYLMkRfULlmVBZmIYBmQmmLmspjxPCt5xLZDMxDzPO2e/lVZ1Xe/uHVi+V/LtVH/FsixYluVwS5xlITMxjuPOT27kEY9tTLQQn5+fkZlY1/XmZvPSPuTs6xExTBNimiDDsAc58JGbEBXk/MBERPBTmgHYTnjAa9smAe5WI1XwALa1XGu3wOPgdHQ4d62RZsDttrSy9O5P+eKw9RvVZZXcKL7jgU4Lztp+AaAJDqw9kO1o3Q9aIgCYpwmIcLd/+vuwj7g7EHu/XDrLcH6QqvGpASkrt8kQEeFmrx5FxP5MWfHHCpyPVeZTBpDv05zzQNz+9FpKiN2Y5wP0FkhlC7IUFcYRoQVr9cFuZQF9p/JtaSnqE6IWZFvlN1VJdXzCdlYDkJc+dAviikJVqLdCbu1S3WBk1VoKYqEDYo8QcaZkVaNwS9DqyZi6B3rYfLqitEuRX9OVuwLp/l3rUdVrQv6PPy7cC7wJ8h/2K72SJhE9gwAAAABJRU5ErkJggg==");
+  opacity: 0.06;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+/* WhatsApp scrollbar styling */
+.whatsapp-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.whatsapp-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.whatsapp-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+/* Message bubble styling */
+.phone-area-component .message-tail-out {
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+  width: 8px;
+  height: 13px;
+  background-color: #dcf8c6;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.phone-area-component .message-tail-in {
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 8px;
+  height: 13px;
+  background-color: #ffffff;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
 @layer base {
   * {
     @apply border-border;
