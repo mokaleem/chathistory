@@ -65,8 +65,14 @@ export const MessageAreaClient = () => {
             </div>
           ) : (
             <>
-              <div className="text-xs text-gray-500 mb-2">
-                Messages: {messages.length}
+              <div className="flex justify-between text-xs text-gray-500 mb-2">
+                <div>
+                  {otherName}:{" "}
+                  {messages.filter((m) => m.senderId === "other-id").length}
+                </div>
+                <div>
+                  You: {messages.filter((m) => m.senderId === "user-id").length}
+                </div>
               </div>
               {messages.map((message) => (
                 <EditableMessage key={message.id} message={message} />
