@@ -172,11 +172,11 @@ export const EditableMessage = ({ message }: { message: Message }) => {
 
       {/* Action icons - Only visible on hover, horizontal arrangement */}
       <div
-        className={`absolute z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-row gap-2`}
+        className={`absolute z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-row items-center bg-gray-100 rounded-md px-1 py-0.5`}
         style={{
           top: "-25px",
-          left: isUser ? "auto" : "0",
-          right: isUser ? "0" : "auto",
+          right: "0",
+          left: "auto",
         }}
       >
         <Tooltip>
@@ -184,7 +184,7 @@ export const EditableMessage = ({ message }: { message: Message }) => {
             <button
               onClick={() => toggleMessageEdit(message.id)}
               type="button"
-              className="bg-white text-blue-600 rounded-full shadow p-1 border border-blue-200 hover:bg-blue-50 hover:scale-110 transition-all"
+              className="p-1.5 text-blue-600 hover:bg-gray-200 hover:scale-110 transition-all"
             >
               <Edit className="h-4 w-4" />
             </button>
@@ -196,7 +196,7 @@ export const EditableMessage = ({ message }: { message: Message }) => {
             <button
               onClick={handleCopy}
               type="button"
-              className="bg-white text-green-600 rounded-full shadow p-1 border border-green-200 hover:bg-green-50 hover:scale-110 transition-all"
+              className="p-1.5 text-green-600 hover:bg-gray-200 hover:scale-110 transition-all"
             >
               <Copy className="h-4 w-4" />
             </button>
@@ -208,7 +208,7 @@ export const EditableMessage = ({ message }: { message: Message }) => {
             <button
               onClick={() => deleteMessage(message.id)}
               type="button"
-              className="bg-white text-red-600 rounded-full shadow p-1 border border-red-200 hover:bg-red-50 hover:scale-110 transition-all"
+              className="p-1.5 text-red-600 hover:bg-gray-200 hover:scale-110 transition-all"
             >
               <Trash className="h-4 w-4" />
             </button>
@@ -223,7 +223,7 @@ export const EditableMessage = ({ message }: { message: Message }) => {
               <button
                 onClick={() => setShowMoveMenu(!showMoveMenu)}
                 type="button"
-                className="bg-white text-gray-600 rounded-full shadow p-1 border border-gray-200 hover:bg-gray-50 hover:scale-110 transition-all"
+                className="p-1.5 text-gray-600 hover:bg-gray-200 hover:scale-110 transition-all"
               >
                 <MoreVertical className="h-4 w-4" />
               </button>
