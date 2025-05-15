@@ -58,7 +58,28 @@ export const MessageAreaClient = () => {
 
       {/* Message area - critical fix for scrolling */}
       <div className="flex-1 overflow-hidden relative" style={{ zIndex: 10 }}>
-        <div className="absolute inset-0 overflow-y-auto overflow-x-hidden p-4">
+        <div
+          className="absolute inset-0 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "#e5e7eb transparent",
+          }}
+        >
+          <style jsx global>{`
+            .custom-scrollbar::-webkit-scrollbar {
+              width: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background-color: #e5e7eb;
+              border-radius: 3px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+              background-color: #d1d5db;
+            }
+          `}</style>
           {messages.length === 0 ? (
             <div className="text-center text-gray-500 mt-4">
               No messages yet. Start a conversation!
