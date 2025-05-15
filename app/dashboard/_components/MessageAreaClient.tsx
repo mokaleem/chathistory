@@ -57,38 +57,22 @@ export const MessageAreaClient = () => {
       </div>
 
       {/* Message area - critical fix for scrolling */}
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-hidden relative" style={{ zIndex: 10 }}>
         <div className="absolute inset-0 overflow-y-auto overflow-x-hidden p-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`max-w-[70%] rounded-lg p-2 mb-2 ${
-                message.senderId === "user-id"
-                  ? "ml-auto bg-blue-500 text-white"
-                  : "bg-gray-100"
-              }`}
-            >
-              {/* Fixed: Use content for TextMessage and show appropriate content for different message types */}
-              <div className="break-words">
-                {message.type === "text"
-                  ? (message as TextMessage).content
-                  : "Media message"}
-              </div>
-              <div className="text-xs opacity-70">
-                {new Date(message.timestamp).toLocaleTimeString()}
-              </div>
-              {/* Display reactions if any */}
-              {message.reactions && message.reactions.length > 0 && (
-                <div className="flex gap-1 mt-1">
-                  {message.reactions.map((reaction, index) => (
-                    <span key={index} className="text-xs">
-                      {reaction.emoji}
-                    </span>
-                  ))}
-                </div>
-              )}
+          {messages.length === 0 ? (
+            <div className="text-center text-gray-500 mt-4">
+              No messages yet. Start a conversation!
             </div>
-          ))}
+          ) : (
+            <>
+              <div className="text-xs text-gray-500 mb-2">
+                Messages: {messages.length}
+              </div>
+              {messages.map((message) => (
+                <EditableMessage key={message.id} message={message} />
+              ))}
+            </>
+          )}
         </div>
       </div>
 

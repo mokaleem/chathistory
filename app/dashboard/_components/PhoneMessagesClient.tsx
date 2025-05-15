@@ -86,7 +86,7 @@ export const PhoneMessagesClient = () => {
             </span>
             {message.senderId === "user-id" && (
               <span className="text-[#4fc3f7] ml-0.5">
-                {message.status === "sent" && "✓"}
+                {message.status === "sent" && "✓✓"}
                 {message.status === "delivered" && "✓✓"}
                 {message.status === "read" && "✓✓"}
               </span>

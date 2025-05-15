@@ -19,7 +19,34 @@ interface ChatStore {
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
-  messages: [],
+  messages: [
+    {
+      id: "1",
+      type: "text",
+      content: "Hello! How can I help you today?",
+      senderId: "other-id",
+      sender: "other",
+      timestamp: new Date().toISOString(),
+      reactions: [],
+      status: "read" as MessageStatus,
+      replyTo: null,
+      edited: false,
+      editHistory: [],
+    } as TextMessage,
+    {
+      id: "2",
+      type: "text",
+      content: "I need help with my account settings",
+      senderId: "user-id",
+      sender: "user",
+      timestamp: new Date().toISOString(),
+      reactions: [],
+      status: "sent" as MessageStatus,
+      replyTo: null,
+      edited: false,
+      editHistory: [],
+    } as TextMessage,
+  ],
   otherParticipant: {
     name: "Martha",
     setOtherName: (newName: string) => {
