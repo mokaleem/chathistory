@@ -16,6 +16,8 @@ interface ChatStore {
   setOtherParticipant: (participant: Participant) => void;
   toggleMessageEdit: (id: string) => void;
   addReaction: (messageId: string, reaction: string) => void;
+  moveMessageUp: (id: string) => void;
+  moveMessageDown: (id: string) => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -124,4 +126,28 @@ export const useChatStore = create<ChatStore>((set) => ({
           : msg
       ),
     })),
+  moveMessageUp: (id) =>
+    set((state) => {
+      const messages = [...state.messages];
+      const index = messages.findIndex((msg) => msg.id === id);
+      if (index > 0) {
+        [messages[index], messages[index - 1]] = [
+          messages[index - 1],
+          messages[index],
+        ];
+      }
+      return { messages };
+    }),
+  moveMessageDown: (id) =>
+    set((state) => {
+      const messages = [...state.messages];
+      const index = messages.findIndex((msg) => msg.id === id);
+      if (index < messages.length - 1) {
+        [messages[index], messages[index + 1]] = [
+          messages[index + 1],
+          messages[index],
+        ];
+      }
+      return { messages };
+    }),
 }));

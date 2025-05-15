@@ -22,11 +22,18 @@ import {
 import { useState } from "react";
 
 export const EditableMessage = ({ message }: { message: Message }) => {
-  const { editMessage, deleteMessage, toggleMessageEdit, addReaction } =
-    useChatStore();
+  const {
+    editMessage,
+    deleteMessage,
+    toggleMessageEdit,
+    addReaction,
+    moveMessageUp,
+    moveMessageDown,
+  } = useChatStore();
   const currentUserId = "user-id"; // This should match your store's user id logic
   const isUser = message.senderId === currentUserId;
   const [showMoveMenu, setShowMoveMenu] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Debug message data
   console.log(
@@ -36,17 +43,17 @@ export const EditableMessage = ({ message }: { message: Message }) => {
     message.senderId
   );
 
-  // Placeholder handlers for move/add actions
   const handleMoveUp = () => {
-    console.log("Move up message:", message.id);
+    moveMessageUp(message.id);
     setShowMoveMenu(false);
-    /* TODO: Implement move up */
   };
+
   const handleMoveDown = () => {
-    console.log("Move down message:", message.id);
+    moveMessageDown(message.id);
     setShowMoveMenu(false);
-    /* TODO: Implement move down */
   };
+
+  // Placeholder handlers for move/add actions
   const handleCopy = () => {
     console.log("Copy message:", message.id);
     if (navigator?.clipboard && typeof message.content === "string") {
@@ -54,9 +61,49 @@ export const EditableMessage = ({ message }: { message: Message }) => {
     }
   };
 
+  const handleDragStart = (e: React.DragEvent) => {
+    setIsDragging(true);
+    e.dataTransfer.setData("text/plain", message.id);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const draggedId = e.dataTransfer.getData("text/plain");
+    const targetId = message.id;
+
+    if (draggedId === targetId) return;
+
+    const draggedIndex = useChatStore
+      .getState()
+      .messages.findIndex((msg) => msg.id === draggedId);
+    const targetIndex = useChatStore
+      .getState()
+      .messages.findIndex((msg) => msg.id === targetId);
+
+    if (draggedIndex < targetIndex) {
+      // If dragging down, move the target message up
+      moveMessageUp(targetId);
+    } else {
+      // If dragging up, move the target message down
+      moveMessageDown(targetId);
+    }
+  };
+
   return (
     <div
-      className="group relative p-3 rounded-lg mb-3 hover:shadow-sm transition-shadow"
+      className={`group relative p-3 rounded-lg mb-3 hover:shadow-sm transition-shadow ${
+        isDragging ? "opacity-50" : ""
+      }`}
       style={{
         backgroundColor: isUser ? "#1e88e5" : "#f5f5f5",
         color: isUser ? "white" : "black",
@@ -66,6 +113,10 @@ export const EditableMessage = ({ message }: { message: Message }) => {
         position: "relative",
       }}
       draggable={true}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
     >
       {/* Drag handle - visible on hover */}
       <div
@@ -182,7 +233,10 @@ export const EditableMessage = ({ message }: { message: Message }) => {
 
           {/* Move options dropdown menu */}
           {showMoveMenu && (
-            <div className="absolute top-8 right-0 bg-white shadow-md rounded-md border border-gray-200 p-1 z-50 flex flex-col gap-1 w-24">
+            <div
+              className="absolute top-8 right-0 bg-white shadow-md rounded-md border border-gray-200 p-1 z-50 flex flex-col gap-1 w-24"
+              onClick={(e) => e.stopPropagation()}
+            >
               <button
                 onClick={handleMoveUp}
                 className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-gray-100 rounded text-left whitespace-nowrap text-black"
