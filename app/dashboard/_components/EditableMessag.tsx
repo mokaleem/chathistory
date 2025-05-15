@@ -21,7 +21,17 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 
-export const EditableMessage = ({ message }: { message: Message }) => {
+export const EditableMessage = ({
+  message,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+}: {
+  message: Message;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
+  onDragOver?: () => void;
+}) => {
   const {
     editMessage,
     deleteMessage,
@@ -65,15 +75,18 @@ export const EditableMessage = ({ message }: { message: Message }) => {
     setIsDragging(true);
     e.dataTransfer.setData("text/plain", message.id);
     e.dataTransfer.effectAllowed = "move";
+    if (onDragStart) onDragStart();
   };
 
   const handleDragEnd = () => {
     setIsDragging(false);
+    if (onDragEnd) onDragEnd();
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
+    if (onDragOver) onDragOver();
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -159,13 +172,18 @@ export const EditableMessage = ({ message }: { message: Message }) => {
         />
       ) : (
         <>
-          <div onClick={() => toggleMessageEdit(message.id)} className="mb-1">
-            {message.content}
-          </div>
-          <div className="text-xs opacity-70">
-            {typeof message.timestamp === "string"
-              ? message.timestamp.slice(11, 16)
-              : ""}
+          <div
+            onClick={() => toggleMessageEdit(message.id)}
+            className="mb-1 flex items-end justify-between gap-2"
+          >
+            <span className="text-[15px] leading-snug break-words flex-1">
+              {message.content}
+            </span>
+            <span className="text-[11px] opacity-60 min-w-fit text-right pl-2">
+              {typeof message.timestamp === "string"
+                ? message.timestamp.slice(11, 16)
+                : ""}
+            </span>
           </div>
         </>
       )}
