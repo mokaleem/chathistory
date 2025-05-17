@@ -1,7 +1,11 @@
+"use client";
 import { ChevronLeft, Phone, Video } from "lucide-react";
 import React from "react";
+import { useChatStore } from "../store/chatStore";
 
 function NameBar() {
+  const otherParticipant = useChatStore((state) => state.otherParticipant);
+
   return (
     <div className="w-full px-2 py-2 bg-white">
       <div className="flex justify-between items-center">
@@ -12,7 +16,9 @@ function NameBar() {
               {/* Placeholder for profile image */}
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-semibold">Martha Craig</span>
+              <span className="text-base font-semibold">
+                {otherParticipant.name}
+              </span>
             </div>
           </div>
         </div>
