@@ -190,11 +190,15 @@ export const EditableMessage = ({
 
       {/* Action icons - Only visible on hover, horizontal arrangement */}
       <div
-        className={`absolute z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-row items-center bg-gray-100 rounded-md px-1 py-0.5`}
+        className={`absolute z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-row items-center bg-white rounded-md px-1 py-0.5`}
         style={{
           top: "-25px",
           right: "0",
           left: "auto",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+          border: "2px solid",
+          borderImageSource: "linear-gradient(to right, #1a202c, #2d3748)",
+          borderImageSlice: "1",
         }}
       >
         <Tooltip>
@@ -239,7 +243,11 @@ export const EditableMessage = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <button
-                onClick={() => setShowMoveMenu(!showMoveMenu)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowMoveMenu((prev) => !prev);
+                }}
                 type="button"
                 className="p-1.5 text-gray-600 hover:bg-gray-200 hover:scale-110 transition-all"
               >
@@ -252,17 +260,28 @@ export const EditableMessage = ({
           {/* Move options dropdown menu */}
           {showMoveMenu && (
             <div
-              className="absolute top-8 right-0 bg-white shadow-md rounded-md border border-gray-200 p-1 z-50 flex flex-col gap-1 w-24"
-              onClick={(e) => e.stopPropagation()}
+              className="absolute top-8 right-0 bg-white shadow-lg rounded-md border border-gray-300 p-1 z-50 flex flex-col gap-1 w-24"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
             >
               <button
-                onClick={handleMoveUp}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleMoveUp();
+                }}
                 className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-gray-100 rounded text-left whitespace-nowrap text-black"
               >
                 <ArrowUp className="h-4 w-4 text-blue-500" /> Move up
               </button>
               <button
-                onClick={handleMoveDown}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleMoveDown();
+                }}
                 className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-gray-100 rounded text-left whitespace-nowrap text-black"
               >
                 <ArrowDown className="h-4 w-4 text-blue-500" /> Move down
