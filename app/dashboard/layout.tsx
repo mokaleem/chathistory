@@ -1,20 +1,47 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import Navbar from "./_components/Navbar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
-      <div className="flex w-screen h-screen overflow-hidden">
-        <AppSidebar />
-        <div className="flex-1 flex flex-col min-w-0">
-          {" "}
-          {/* Added min-w-0 to prevent flex items from overflowing */}
-          <SidebarTrigger className="h-12 shrink-0" />{" "}
-          {/* Added shrink-0 to prevent shrinking */}
-          <main className="flex-1 overflow-hidden">{children}</main>
-        </div>
-      </div>
+      {/* <div className="flex w-screen h-screen overflow-hidden"> */}
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#" style={{ cursor: "default" }}>
+                    Message Area
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                {/* <BreadcrumbSeparator className="hidden md:block" /> */}
+                {/* <BreadcrumbItem>
+                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                </BreadcrumbItem> */}
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </header>
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 };
