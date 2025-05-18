@@ -6,6 +6,14 @@ import { EditableMessage } from "./EditableMessag";
 import { MessageEditor } from "./MessageEditor";
 import { TextMessage } from "../types/types";
 import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import ProfilePictureDialog from "./ProfilePictureDialog";
 
 export const MessageAreaClient = () => {
   const messages = useChatStore((state) => state.messages);
@@ -22,6 +30,9 @@ export const MessageAreaClient = () => {
   // Drag and drop indicator state
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
+
+  // Dialog state
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   // Helper to handle drag events from children
   const handleDragStart = (id: string) => setDraggedId(id);
@@ -40,17 +51,19 @@ export const MessageAreaClient = () => {
             <Image
               src={otherAvatar}
               alt="Display Picture"
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
               width={32}
               height={32}
+              onClick={() => setIsAvatarDialogOpen(true)}
             />
           ) : (
             <Image
-              src="/default-avatar.png"
+              src="/user-avatar.svg"
               alt="Display Picture"
               width={32}
               height={32}
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full cursor-pointer"
+              onClick={() => setIsAvatarDialogOpen(true)}
             />
           )}
           <input
@@ -164,6 +177,12 @@ export const MessageAreaClient = () => {
         <MessageEditor sender="other" />
         <MessageEditor sender="user" />
       </div>
+
+      {/* Avatar Dialog */}
+      <ProfilePictureDialog
+        open={isAvatarDialogOpen}
+        onOpenChange={setIsAvatarDialogOpen}
+      />
     </div>
   );
 };

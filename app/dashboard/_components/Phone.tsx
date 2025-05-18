@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import NetworkBar from "./NetworkBar";
 import NameBar from "./NameBar";
 import Background from "./Background";
@@ -20,6 +20,14 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import html2canvas from "html2canvas";
 
 // Define app theme interface
 interface AppTheme {
@@ -100,15 +108,38 @@ function Phone() {
   const [currentApp, setCurrentApp] = useState<AppThemeKey>("whatsapp");
   const theme = appThemes[currentApp];
   const [showScrollHint, setShowScrollHint] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const phoneRef = useRef<HTMLDivElement>(null);
 
   const handlePreview = () => {
-    console.log("Preview conversation in new window");
-    // Implementation would go here
+    setIsPreviewOpen(true);
   };
 
-  const handleExport = () => {
-    console.log("Export conversation");
-    // Implementation would go here
+  const handleExport = async () => {
+    if (!phoneRef.current) return;
+
+    try {
+      // Add a class to hide scrollbars temporarily during capture
+      phoneRef.current.classList.add("hide-scrollbars");
+
+      const canvas = await html2canvas(phoneRef.current, {
+        backgroundColor: null,
+        logging: false,
+        scale: 2, // Higher quality
+      });
+
+      // Remove the temporary class
+      phoneRef.current.classList.remove("hide-scrollbars");
+
+      // Create download link
+      const link = document.createElement("a");
+      link.download = `${theme.name}-conversation.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (error) {
+      console.error("Error exporting conversation:", error);
+      alert("Failed to export conversation. Please try again.");
+    }
   };
 
   return (
@@ -149,6 +180,7 @@ function Phone() {
 
       {/* Phone device */}
       <div
+        ref={phoneRef}
         className="relative mx-auto border-gray-800 bg-gray-800 border-[10px] rounded-[2.5rem] h-[607px] w-[320px] phone-area-component"
         onMouseEnter={() => setShowScrollHint(true)}
         onMouseLeave={() => setShowScrollHint(false)}
@@ -238,6 +270,49 @@ function Phone() {
           </Tooltip>
         </TooltipProvider>
       </div>
+
+      {/* Preview Dialog */}
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="sm:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle>{`${theme.name} Preview`}</DialogTitle>
+            <DialogDescription>
+              Preview how your conversation looks in a real messaging app.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <div className="border-gray-800 bg-gray-800 border-[8px] rounded-[2rem] h-[500px] w-[270px]">
+              <div className="rounded-[1.8rem] overflow-hidden w-full h-full !bg-white">
+                <div
+                  style={{
+                    background:
+                      typeof theme.headerBg === "string" &&
+                      theme.headerBg.includes("gradient")
+                        ? theme.headerBg
+                        : theme.headerBg,
+                  }}
+                >
+                  <NetworkBar />
+                  <NameBar appTheme={theme} />
+                </div>
+                <div className="relative h-[calc(100%-80px)]">
+                  <div className="absolute inset-0 z-0">
+                    <Background backgroundImage={theme.backgroundImage} />
+                  </div>
+                  <div className="relative h-full z-10 overflow-y-auto">
+                    <PhoneMessagesClient
+                      userBubbleBg={theme.userBubbleBg}
+                      otherBubbleBg={theme.otherBubbleBg}
+                      bubbleRadius={theme.bubbleRadius}
+                      appTheme={theme}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

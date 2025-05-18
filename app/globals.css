@@ -274,3 +274,15 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+/* Hide scrollbars for export */
+.hide-scrollbars::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+.hide-scrollbars {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
