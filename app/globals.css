@@ -244,3 +244,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+.phone-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+.phone-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 10px;
+  min-height: 10rem;
+  max-height: 10rem;
+}
+
+.phone-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+.phone-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+/* Ensure no text selection in phone area */
+.phone-area * {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
