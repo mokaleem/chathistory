@@ -1,11 +1,42 @@
 "use client";
 import { useChatStore } from "../store/chatStore";
 import { TextMessage, MediaMessage } from "../types/types";
+import { useRef } from "react";
 
-export const PhoneMessagesClient = () => {
+interface AppTheme {
+  primaryColor: string;
+  secondaryColor: string;
+  headerBg: string;
+  chatBg: string;
+  userBubbleBg: string;
+  otherBubbleBg: string;
+  backgroundImage: string;
+  bubbleRadius: string;
+  name: string;
+  icon?: React.ReactNode;
+  fontSize: string;
+}
+
+interface PhoneMessagesClientProps {
+  userBubbleBg?: string;
+  otherBubbleBg?: string;
+  bubbleRadius?: string;
+  appTheme?: AppTheme;
+}
+
+export const PhoneMessagesClient = ({
+  userBubbleBg = "#DCF8C6",
+  otherBubbleBg = "#FFFFFF",
+  bubbleRadius = "rounded-lg",
+  appTheme,
+}: PhoneMessagesClientProps) => {
   const messages = useChatStore((state) => state.messages);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Helper function to render message content based on type
+  // Use the platform-specific font size or default to 0.75rem
+  const fontSize = appTheme?.fontSize || "0.75rem";
+
+  // Helper function to render message content
   const renderMessageContent = (message: TextMessage | MediaMessage) => {
     switch (message.type) {
       case "text":
@@ -54,8 +85,13 @@ export const PhoneMessagesClient = () => {
   };
 
   return (
-    // Custom scrollbar with controlled width and hiding horizontal scrollbar
-    <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-2 h-full custom-scrollbar">
+    <div
+      ref={scrollContainerRef}
+      className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-2 h-full phone-scrollbar phone-area"
+      style={{
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
       {/* Date header like in the screenshot */}
       <div className="flex justify-center my-2">
         <div className="bg-white text-gray-500 rounded-md px-3 py-1 text-xs font-medium shadow-sm">
@@ -66,13 +102,21 @@ export const PhoneMessagesClient = () => {
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`max-w-[75%] rounded-lg mb-1 px-2 pt-1.5 pb-1 relative ${
+          className={`max-w-[75%] mb-1 px-2 pt-1.5 pb-1 relative ${bubbleRadius} ${
             message.senderId === "user-id"
-              ? "ml-auto bg-[#dcf8c6] text-black" // WhatsApp green bubble for user
-              : "bg-white text-black" // White bubble for others
+              ? "ml-auto" // WhatsApp green bubble for user
+              : "" // White bubble for others
           }`}
+          style={{
+            backgroundColor:
+              message.senderId === "user-id" ? userBubbleBg : otherBubbleBg,
+            color: "black",
+          }}
         >
-          <div className="text-sm leading-tight mb-2 break-words overflow-wrap-anywhere">
+          <div
+            className="leading-tight mb-2 break-words overflow-wrap-anywhere"
+            style={{ fontSize }}
+          >
             {renderMessageContent(message)}
           </div>
 
