@@ -154,27 +154,33 @@ function ProfilePictureDialog({
           <div className="grid grid-cols-3 gap-4 py-4">
             <Button
               variant="outline"
-              className="flex flex-col items-center justify-center h-32 p-4"
+              className="flex flex-col items-center justify-center h-32 p-4 relative border-0 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-indigo-400 before:to-purple-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr hover:scale-105 transition-transform group overflow-hidden after:absolute after:inset-[3px] after:bg-white after:rounded-md after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-indigo-200/50 hover:shadow-indigo-300/50 transition-shadow"
               onClick={() => setStep("male")}
             >
-              <User className="h-12 w-12 mb-2" />
-              <span>Male</span>
+              <div className="relative z-10 flex flex-col items-center">
+                <User className="h-16 w-16 mb-2 text-indigo-500 group-hover:text-indigo-300 transition-colors" />
+                <span className="font-medium">Male</span>
+              </div>
             </Button>
             <Button
               variant="outline"
-              className="flex flex-col items-center justify-center h-32 p-4"
+              className="flex flex-col items-center justify-center h-32 p-4 relative border-0 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-pink-400 before:to-rose-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr hover:scale-105 transition-transform group overflow-hidden after:absolute after:inset-[3px] after:bg-white after:rounded-md after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-pink-200/50 hover:shadow-pink-300/50 transition-shadow"
               onClick={() => setStep("female")}
             >
-              <UserRound className="h-12 w-12 mb-2" />
-              <span>Female</span>
+              <div className="relative z-10 flex flex-col items-center">
+                <UserRound className="h-16 w-16 mb-2 text-pink-500 group-hover:text-pink-300 transition-colors" />
+                <span className="font-medium">Female</span>
+              </div>
             </Button>
             <Button
               variant="outline"
-              className="flex flex-col items-center justify-center h-32 p-4"
+              className="flex flex-col items-center justify-center h-32 p-4 relative border-0 before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-emerald-400 before:to-teal-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr hover:scale-105 transition-transform group overflow-hidden after:absolute after:inset-[3px] after:bg-white after:rounded-md after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-shadow"
               onClick={() => setStep("upload")}
             >
-              <Upload className="h-12 w-12 mb-2" />
-              <span>Upload Your Picture</span>
+              <div className="relative z-10 flex flex-col items-center">
+                <Upload className="h-16 w-16 mb-2 text-emerald-500 group-hover:text-emerald-300 transition-colors" />
+                <span className="font-medium">Upload Your Picture</span>
+              </div>
             </Button>
           </div>
         );
@@ -183,23 +189,25 @@ function ProfilePictureDialog({
       case "female":
         return (
           <Tabs defaultValue={ethnicities[0]} className="w-full">
-            <TabsList className="grid grid-cols-3 mb-4">
+            <TabsList className="grid grid-cols-3 mb-4 p-1 bg-gray-100">
               {ethnicities.slice(0, 3).map((ethnicity) => (
                 <TabsTrigger
                   key={ethnicity}
                   value={ethnicity}
                   onClick={() => setSelectedEthnicity(ethnicity)}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
                 >
                   {ethnicity}
                 </TabsTrigger>
               ))}
             </TabsList>
-            <TabsList className="grid grid-cols-3 mb-4">
+            <TabsList className="grid grid-cols-3 mb-4 p-1 bg-gray-100">
               {ethnicities.slice(3).map((ethnicity) => (
                 <TabsTrigger
                   key={ethnicity}
                   value={ethnicity}
                   onClick={() => setSelectedEthnicity(ethnicity)}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all"
                 >
                   {ethnicity}
                 </TabsTrigger>
@@ -214,10 +222,10 @@ function ProfilePictureDialog({
                       (image: AvatarImage) => (
                         <Card
                           key={image.id}
-                          className={`cursor-pointer overflow-hidden ${
+                          className={`cursor-pointer overflow-hidden transition-all ${
                             selectedImage === image.id
-                              ? "ring-2 ring-primary"
-                              : ""
+                              ? "ring-2 ring-indigo-500 scale-105 shadow-md"
+                              : "hover:ring-1 hover:ring-indigo-300 hover:scale-105"
                           }`}
                           onClick={() => setSelectedImage(image.id)}
                         >
@@ -242,15 +250,18 @@ function ProfilePictureDialog({
               <Button
                 onClick={() => setStep("initial")}
                 variant="outline"
-                className="mr-2"
+                className="mr-2 border border-gray-300 hover:bg-gray-50"
               >
                 Back
               </Button>
               <Button
                 disabled={!selectedImage}
                 onClick={handleConfirmSelection}
+                className="relative border-0 overflow-hidden rounded-md before:absolute before:inset-0 before:bg-gradient-to-r before:from-indigo-500 before:to-purple-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr transition-all disabled:before:bg-gray-300 disabled:before:from-gray-300 disabled:before:to-gray-300 disabled:text-gray-400 after:absolute after:inset-[2px] after:bg-white after:rounded-[3px] after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-indigo-200/50 hover:shadow-indigo-300/50 transition-shadow disabled:shadow-none"
               >
-                Confirm Selection
+                <span className="relative z-10 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 bg-clip-text text-transparent font-medium">
+                  Confirm Selection
+                </span>
               </Button>
             </div>
           </Tabs>
@@ -260,8 +271,10 @@ function ProfilePictureDialog({
         return (
           <div className="py-4">
             <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center mb-4 ${
-                isDragging ? "border-primary bg-primary/10" : "border-gray-300"
+              className={`border-2 border-dashed rounded-lg p-8 text-center mb-4 transition-all group ${
+                isDragging
+                  ? "bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-400"
+                  : "border-gray-300 hover:border-gray-400"
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -283,7 +296,7 @@ function ProfilePictureDialog({
                 </div>
               ) : (
                 <>
-                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+                  <Upload className="mx-auto h-16 w-16 text-emerald-500 group-hover:text-emerald-300 transition-colors" />
                   <p className="text-sm text-gray-500 mb-4">
                     Drag and drop your image here, or click to browse
                   </p>
@@ -304,22 +317,32 @@ function ProfilePictureDialog({
                         uploadInput.click();
                       }
                     }}
+                    className="relative border-0 overflow-hidden rounded-md before:absolute before:inset-0 before:bg-gradient-to-r before:from-emerald-500 before:to-teal-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr transition-all after:absolute after:inset-[2px] after:bg-white after:rounded-[3px] after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-shadow"
                   >
-                    Browse Files
+                    <span className="relative z-10 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 bg-clip-text text-transparent font-medium">
+                      Browse Files
+                    </span>
                   </Button>
                 </>
               )}
             </div>
 
             <div className="flex justify-between">
-              <Button onClick={() => setStep("initial")} variant="outline">
+              <Button
+                onClick={() => setStep("initial")}
+                variant="outline"
+                className="border border-gray-300 hover:bg-gray-50"
+              >
                 Back
               </Button>
               <Button
                 disabled={!uploadedImage}
                 onClick={handleConfirmSelection}
+                className="relative border-0 overflow-hidden rounded-md before:absolute before:inset-0 before:bg-gradient-to-r before:from-emerald-500 before:to-teal-500 before:content-[''] before:-z-10 hover:before:bg-gradient-to-tr transition-all disabled:before:bg-gray-300 disabled:before:from-gray-300 disabled:before:to-gray-300 disabled:text-gray-400 after:absolute after:inset-[2px] after:bg-white after:rounded-[3px] after:content-[''] after:-z-[5] shadow-md hover:shadow-lg shadow-emerald-200/50 hover:shadow-emerald-300/50 transition-shadow disabled:shadow-none"
               >
-                Confirm Upload
+                <span className="relative z-10 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 bg-clip-text text-transparent font-medium">
+                  Confirm Upload
+                </span>
               </Button>
             </div>
           </div>
