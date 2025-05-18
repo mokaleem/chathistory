@@ -122,11 +122,8 @@ function Phone() {
       // Add a class to hide scrollbars temporarily during capture
       phoneRef.current.classList.add("hide-scrollbars");
 
-      const canvas = await html2canvas(phoneRef.current, {
-        backgroundColor: null,
-        logging: false,
-        scale: 2, // Higher quality
-      });
+      // Use minimal options to avoid type issues
+      const canvas = await html2canvas(phoneRef.current);
 
       // Remove the temporary class
       phoneRef.current.classList.remove("hide-scrollbars");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent, DragEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -33,23 +33,38 @@ interface ProfilePictureDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+interface AvatarImage {
+  id: string;
+  src: string;
+  alt: string;
+}
+
+interface LoadedImages {
+  [key: string]: AvatarImage[];
+}
+
 function ProfilePictureDialog({
   open,
   onOpenChange,
 }: ProfilePictureDialogProps) {
   // State to track the current step in the dialog
-  const [step, setStep] = useState("initial"); // initial, male, female, upload
+  const [step, setStep] = useState<"initial" | "male" | "female" | "upload">(
+    "initial"
+  );
   const [selectedEthnicity, setSelectedEthnicity] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
-  const [loadedImages, setLoadedImages] = useState({});
-  const [uploadedImage, setUploadedImage] = useState(null);
+  const [loadedImages, setLoadedImages] = useState<LoadedImages>({});
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const setOtherAvatar = useChatStore(
     (state) => state.otherParticipant.setOtherAvatar
   );
 
   // Function to simulate loading images for a specific gender and ethnicity
-  const loadImagesForEthnicity = (gender, ethnicity) => {
+  const loadImagesForEthnicity = (
+    gender: string,
+    ethnicity: string
+  ): AvatarImage[] => {
     // This would be replaced with your actual image loading logic
     // For demo purposes, we'll create placeholder images
     const key = `${gender}-${ethnicity}`;
@@ -68,19 +83,21 @@ function ProfilePictureDialog({
   };
 
   // Handle file upload
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        setUploadedImage(event.target.result);
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        if (event.target?.result) {
+          setUploadedImage(event.target.result as string);
+        }
       };
       reader.readAsDataURL(file);
     }
   };
 
   // Handle drag and drop
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(true);
   };
@@ -89,15 +106,17 @@ function ProfilePictureDialog({
     setIsDragging(false);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        setUploadedImage(event.target.result);
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        if (event.target?.result) {
+          setUploadedImage(event.target.result as string);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -191,27 +210,29 @@ function ProfilePictureDialog({
               <TabsContent key={ethnicity} value={ethnicity}>
                 <ScrollArea className="h-[300px] rounded-md border p-4">
                   <div className="grid grid-cols-3 gap-4">
-                    {loadImagesForEthnicity(step, ethnicity)?.map((image) => (
-                      <Card
-                        key={image.id}
-                        className={`cursor-pointer overflow-hidden ${
-                          selectedImage === image.id
-                            ? "ring-2 ring-primary"
-                            : ""
-                        }`}
-                        onClick={() => setSelectedImage(image.id)}
-                      >
-                        <CardContent className="p-2">
-                          <Image
-                            src={image.src || "/placeholder.svg"}
-                            alt={image.alt}
-                            width={100}
-                            height={100}
-                            className="rounded-md object-cover w-full h-auto"
-                          />
-                        </CardContent>
-                      </Card>
-                    ))}
+                    {loadImagesForEthnicity(step, ethnicity)?.map(
+                      (image: AvatarImage) => (
+                        <Card
+                          key={image.id}
+                          className={`cursor-pointer overflow-hidden ${
+                            selectedImage === image.id
+                              ? "ring-2 ring-primary"
+                              : ""
+                          }`}
+                          onClick={() => setSelectedImage(image.id)}
+                        >
+                          <CardContent className="p-2">
+                            <Image
+                              src={image.src || "/placeholder.svg"}
+                              alt={image.alt}
+                              width={100}
+                              height={100}
+                              className="rounded-md object-cover w-full h-auto"
+                            />
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
                   </div>
                 </ScrollArea>
               </TabsContent>
@@ -249,7 +270,7 @@ function ProfilePictureDialog({
               {uploadedImage ? (
                 <div className="flex flex-col items-center">
                   <img
-                    src={uploadedImage || "/placeholder.svg"}
+                    src={uploadedImage}
                     alt="Uploaded profile"
                     className="w-32 h-32 object-cover rounded-full mb-4"
                   />
@@ -276,7 +297,12 @@ function ProfilePictureDialog({
                   <Button
                     variant="outline"
                     onClick={() => {
-                      document.getElementById("picture-upload").click();
+                      const uploadInput = document.getElementById(
+                        "picture-upload"
+                      ) as HTMLInputElement;
+                      if (uploadInput) {
+                        uploadInput.click();
+                      }
                     }}
                   >
                     Browse Files
